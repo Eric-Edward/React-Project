@@ -4,13 +4,25 @@ import {UserOutlined, LockOutlined} from '@ant-design/icons'
 
 import './index.less'
 import logo from './images/logo.png'
+import {reqLogin} from '../../api'
 
 class Login extends Component {
 
-    onFinish = (event) => {
-        console.log('Received values of form: ', event)
-        alert(`username:${event.username},password:${event.password}`);
+    onFinish = (value) => {
+        console.log('Received values of form: ', value)
+        alert(`登录成功！\r\n username:${value.username},password:${value.password}`);
+        reqLogin(value.username, value.password).then(response => {
+                console.log('发送请求成功！', response);
+            }
+        ).catch(error => {
+            console.log('发送请求失败！', error);
+        })
     };
+
+    onFinishFailed = (value) => {
+        console.log(value);
+    }
+
 
     validatePwd = (rule, value, callback) => {
         if (!value) callback('密码不能为空！');
@@ -35,6 +47,7 @@ class Login extends Component {
                         className="login-form"
                         initialValues={{remember: true}}
                         onFinish={this.onFinish}
+                        onFinishFailed={this.onFinishFailed}
                     >
                         <Form.Item
                             name="username"
