@@ -12,7 +12,7 @@ class Login extends Component {
         console.log('Received values of form: ', value)
         alert(`登录成功！\r\n username:${value.username},password:${value.password}`);
         reqLogin(value.username, value.password).then(response => {
-                console.log('发送请求成功！', response);
+                console.log('发送请求成功！', response.data);
             }
         ).catch(error => {
             console.log('发送请求失败！', error);
@@ -21,15 +21,6 @@ class Login extends Component {
 
     onFinishFailed = (value) => {
         console.log(value);
-    }
-
-
-    validatePwd = (rule, value, callback) => {
-        if (!value) callback('密码不能为空！');
-        else if (value.length < 4) callback('密码不能少于4位');
-        else if (value.length > 12) callback('密码不能多于12位');
-        else if (!/^[a-zA-Z0-9_]+$/.test(value)) callback('密码必须由大小写字母、数字以及下划线构成')
-        else callback();
     }
 
 
@@ -67,7 +58,10 @@ class Login extends Component {
                         <Form.Item
                             name="password"
                             rules={[
-                                {validator: this.validatePwd}
+                                {required: true, message: '密码必须输入！'},
+                                {max: 12, message: '密码长度不能大于12'},
+                                {min: 4, message: '密码长度不能小于4'},
+                                {pattern: /^[a-zA-Z0-9_]+$/, message: '密码必大小写字母、数字以及下划线构成'}
                             ]}
                         >
                             <Input
