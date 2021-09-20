@@ -1,4 +1,5 @@
 const express = require('express')
+const nanoid = require('nanoid')
 const app = express()
 
 app.use((request, response, next) => {
@@ -8,6 +9,7 @@ app.use((request, response, next) => {
 
 app.all('/login', (request, response) => {
     const data = {
+        id:12345,
         username: 'eric',
         password: 'Tsinghua'
     }
