@@ -5,8 +5,9 @@ import {Redirect} from "react-router-dom";
 class Admin extends Component {
     render() {
         const user = memoryUtils.user;
-        console.log('Admin',user);
-        if (!user && !user.id) return <Redirect to={'/login'}/>
+        console.log('Admin', user);
+        console.log(user.id)
+        if (!user || !user.id) return <Redirect to={'/login'}/>
         return (
             <div>
                 Hello {user.username}
