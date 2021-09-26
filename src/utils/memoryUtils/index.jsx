@@ -1,3 +1,3 @@
-export default {
-    user:{}
-}
+const user = []
+
+export default user

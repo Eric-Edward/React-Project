@@ -2,23 +2,12 @@ import React, {Component} from 'react';
 
 
 import {Menu} from 'antd';
-import {
-    HomeOutlined,
-    AppstoreOutlined,
-    ShoppingOutlined,
-    ToolOutlined,
-    UserOutlined,
-    SolutionOutlined,
-    AreaChartOutlined,
-    BarChartOutlined,
-    LineChartOutlined,
-    PieChartOutlined
-} from '@ant-design/icons';
 
 
 import './index.less'
 import logo from '../../assets/images/logo.png'
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
+import menuList from "../../config/menuList";
 
 
 const {SubMenu} = Menu;
@@ -26,12 +15,44 @@ const {SubMenu} = Menu;
 
 class LeftNav extends Component {
 
-    state = {
-        collapsed: false,
-    };
+    getMenuList = (menuList) => {
+        return menuList.map(item => {
+            if (!item.children) {
+                return (
+                    <Menu.Item key={item.key} icon={item.icon}>
+                        <Link to={item.route}>
+                            {item.title}
+                        </Link>
+                    </Menu.Item>
+                )
+            } else {
+                return (
+                    <SubMenu key={item.key} icon={item.icon} title={item.title}>
+                        {this.getMenuList(item.children)}
+                    </SubMenu>
+                )
+            }
+        })
+    }
+
+    getOpenKeys(path) {
+        // const path = this.props.location.pathname;
+        let segments = path.split('/')
+        segments.shift();
+        segments.pop();
+        console.log(segments)
+
+        segments.reduce((prev, value) => {
+
+            prev += value
+        }, '/')
+    }
 
 
     render() {
+        const path = this.props.location.pathname;
+        console.log('render()', path);
+        this.getOpenKeys(path);
         return (
             <div className={'left-nav'}>
                 <Link to={'/home'} className={'left-nav-header'}>
@@ -42,54 +63,12 @@ class LeftNav extends Component {
                     <Menu
                         mode="inline"
                         theme="dark"
+                        selectedKeys={[path]}
+                        defaultOpenKeys={['/product', '/chart']}
                     >
-
-                        <Menu.Item key="1" icon={<HomeOutlined/>}>
-                            <Link to={'/home'}>
-                                首页
-                            </Link>
-                        </Menu.Item>
-
-
-                        <SubMenu key="sub1" icon={<AppstoreOutlined/>} title="商品">
-
-                            <Menu.Item key="2" icon={<ShoppingOutlined/>}>
-                                <Link to={'/product/category'}>品类管理 </Link>
-                            </Menu.Item>
-
-
-                            <Menu.Item key="3" icon={<ToolOutlined/>}>
-                                <Link to={'/product/products'}>商品管理 </Link>
-                            </Menu.Item>
-
-                        </SubMenu>
-
-
-                        <Menu.Item key="4" icon={<UserOutlined/>}>
-                            <Link to={'/user'}>
-                                用户管理
-                            </Link>
-                        </Menu.Item>
-
-
-                        <Menu.Item key="5" icon={<SolutionOutlined/>}>
-                            <Link to={'/role'}>角色管理 </Link>
-                        </Menu.Item>
-
-
-                        <SubMenu key="sub2" icon={<AreaChartOutlined/>} title="图形图表">
-                            <Menu.Item key="6" icon={<BarChartOutlined/>}>
-                                <Link to={'/chart/bar'}>柱形图</Link>
-                            </Menu.Item>
-
-                            <Menu.Item key="7" icon={<LineChartOutlined/>}> <Link
-                                to={'/chart/line'}>折线图 </Link>
-                            </Menu.Item>
-
-                            <Menu.Item key="8" icon={<PieChartOutlined/>}> <Link
-                                to={'/chart/pie'}>并图 </Link>
-                            </Menu.Item>
-                        </SubMenu>
+                        {
+                            this.getMenuList(menuList)
+                        }
                     </Menu>
                 </div>
             </div>
@@ -97,4 +76,4 @@ class LeftNav extends Component {
     }
 }
 
-export default LeftNav;
+export default withRouter(LeftNav);

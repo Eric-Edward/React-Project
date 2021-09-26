@@ -46,7 +46,7 @@ class Admin extends Component {
                         </Switch>
                     </Content>
                     <Footer
-                        style={{textAlign: 'center', color: '#aaaaaa', fontWeight: 'bold'}}>推荐使用谷歌浏览器!!</Footer>
+                        style={{textAlign: 'center', color: '#aaaaaa', fontWeight: 'bold'}}>推荐使用谷歌浏览器!</Footer>
                 </Layout>
             </Layout>
         );
