@@ -34,16 +34,7 @@ const menuList = [
                 route: '/product/products',
                 key: '/product/products',
                 icon: <ToolOutlined/>,
-                children: [
-                    {
-                        title: '品管理',
-                        route: '/product/products/1',
-                        key: '/product/products/1',
-                        icon: <ShoppingOutlined/>,
-                        children: null
-                    }
-                ]
-
+                children: null
             }
         ]
     },

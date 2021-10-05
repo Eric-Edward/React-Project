@@ -17,13 +17,12 @@ import Bar from "./chart/bar";
 import Line from "./chart/line";
 import Pie from "./chart/pie";
 
+
 const {Footer, Sider, Content} = Layout;
 
 class Admin extends Component {
     render() {
         const user = memoryUtils.user;
-        console.log('Admin', user);
-        console.log(user.id)
         if (!user || !user.id) return <Redirect to={'/login'}/>
         return (
             <Layout style={{height: '100%'}}>
@@ -32,7 +31,7 @@ class Admin extends Component {
                 </Sider>
                 <Layout>
                     <Header>Header</Header>
-                    <Content style={{backgroundColor: 'white'}}>
+                    <Content style={{backgroundColor: 'white', margin: '25px'}}>
                         <Switch>
                             <Route path={'/home'} component={Home}/>
                             <Route path={'/product/category'} component={Category}/>
@@ -41,7 +40,7 @@ class Admin extends Component {
                             <Route path={'/role'} component={Role}/>
                             <Route path={'/chart/bar'} component={Bar}/>
                             <Route path={'/chart/line'} component={Line}/>
-                            <Route path={'chart/pie'} component={Pie}/>
+                            <Route path={'/chart/pie'} component={Pie}/>
                             <Redirect to={'/home'}/>
                         </Switch>
                     </Content>

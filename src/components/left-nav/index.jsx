@@ -19,7 +19,7 @@ class LeftNav extends Component {
         return menuList.map(item => {
             if (!item.children) {
                 return (
-                    <Menu.Item key={item.key} icon={item.icon}>
+                    <Menu.Item key={item.key} icon={item.icon} className={'menu-item'}>
                         <Link to={item.route}>
                             {item.title}
                         </Link>
@@ -27,7 +27,7 @@ class LeftNav extends Component {
                 )
             } else {
                 return (
-                    <SubMenu key={item.key} icon={item.icon} title={item.title}>
+                    <SubMenu key={item.key} icon={item.icon} title={item.title} className={'menu-item'}>
                         {this.getMenuList(item.children)}
                     </SubMenu>
                 )
@@ -35,17 +35,26 @@ class LeftNav extends Component {
         })
     }
 
+
+    /**
+     * 这个函数用来找到当前路径所在的路由地址，并以此将其展开。
+     * @param path 传入当前的路径。
+     * @returns {*} 返回除根路径和末级路径的路由。
+     */
     getOpenKeys(path) {
-        // const path = this.props.location.pathname;
         let segments = path.split('/')
         segments.shift();
         segments.pop();
-        console.log(segments)
+        // console.log(segments)
 
-        segments.reduce((prev, value) => {
-
-            prev += value
-        }, '/')
+        let ans = segments.map((segment, index) => {
+            let seg = '';
+            for (let i = 0; i <= index; i++) {
+                seg = seg + '/' + segments[i]
+            }
+            return seg
+        })
+        return ans
     }
 
 
@@ -64,7 +73,8 @@ class LeftNav extends Component {
                         mode="inline"
                         theme="dark"
                         selectedKeys={[path]}
-                        defaultOpenKeys={['/product', '/chart']}
+                        defaultOpenKeys={this.getOpenKeys(path)}
+                        style={{fontsize: '18px'}}
                     >
                         {
                             this.getMenuList(menuList)

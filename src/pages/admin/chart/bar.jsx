@@ -4,7 +4,7 @@ class Bar extends Component {
     render() {
         return (
             <div>
-                Bar...
+                Bar...sdf
             </div>
         );
     }
